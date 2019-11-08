@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <wesupply_api>
+            <integration>
+                <wesupply_enabled>0</wesupply_enabled>
+            </integration>
+            <step_3>
+                <wesupply_order_view_enabled>1</wesupply_order_view_enabled>
+                <enable_delivery_estimations_header_link>1</enable_delivery_estimations_header_link>
+                <wesupply_order_view_iframe>1</wesupply_order_view_iframe>
+                <wesupply_tracking_info_iframe>1</wesupply_tracking_info_iframe>
+            </step_3>
+            <step_4>
+                <checkout_page_notification>0</checkout_page_notification>
+                <notification_type>default</notification_type>
+                <design_notification_alingment>left</design_notification_alingment>
+            </step_4>
+            <step_5>
+                <estimation_format>d F</estimation_format>
+                <estimation_range>0</estimation_range>
+            </step_5>
+        </wesupply_api>
+    </default>
+</config>

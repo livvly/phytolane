@@ -1,0 +1,10 @@
+<?php $helper = $this->helper('WeSupply\Toolbox\Helper\Data'); ?>
+<div id="order-view-container" class="embed-iframe"></div>
+<script>
+    require(['jquery', 'wesupplyorderview' ],
+        function ($, wesupplyorderview) {
+            $(function () {
+                wesupplyorderview.init('<?php echo $helper->getPlatform(); ?>');
+            });
+        });
+</script>

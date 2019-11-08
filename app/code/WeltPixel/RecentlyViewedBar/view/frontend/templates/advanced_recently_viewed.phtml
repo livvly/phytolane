@@ -1,0 +1,75 @@
+<?php $configData = $this->getConfigData()?>
+<?php $enableCMS =  $configData['enable_cms'] ? '' : ' arv-full-grid'; ?>
+
+<?php if($configData['is_visible']):?>
+    <div class="arv-wrapper <?php echo $configData['is_add_to_cart_enabled'] ? '' : 'add_to_cart_disabled' ?> <?php echo $configData['is_just_add_to_cart'] ? 'no-buttons' : '' ; echo $enableCMS; ?>">
+        <div class="arv-button" id="arv_btn" style="background-color: <?=$configData['button_color'];?>; color: <?=$configData['button_text_color']?>">
+            <span class="arv-slider-btn"><?=$configData['button_label']?></span>
+        </div>
+        <div class="arv-content" id="arv-content">
+            <?php if($configData['enable_cms']):?>
+                <div class="arv-cms" style="height: <?php echo $block->getItemHeight(); ?>px">
+                    <?php
+                    echo $this->getLayout()
+                        ->createBlock('Magento\Cms\Block\Block')
+                        ->setBlockId($configData['cms_block'])
+                        ->toHtml();
+                    ?>
+                </div>
+            <?php endif;?>
+            <div class="arv-no-items">
+                <?php echo __('No recently views items'); ?>
+            </div>
+            <?php if($block->isUICompatible()):?>
+                <span class="arv-clear"><?=__('Clear All');?></span>
+            <?php endif;?>
+            <div class="arv-item-list inline-block" style="height: <?php echo $block->getItemHeight(); ?>px">
+                <?php if($block->isUICompatible()):?>
+                    <?php
+                        echo $this->getLayout()->createBlock(
+                            "Magento\Catalog\Block\Widget\RecentlyViewed",
+                            "recently_viewed",
+                            [
+                                "data" => [
+                                    "uiComponent" => "widget_recently_viewed",
+                                    "page_size"   => $configData['item_limit'],
+                                    "show_attributes" => $configData['show_attributes'],
+                                    "show_buttons" => $configData['show_buttons']
+                                ]
+                            ]
+                        )->setTemplate("Magento_Catalog::product/widget/viewed/grid.phtml")->toHtml();
+                    ?>
+                <?php else:?>
+                    <div id="recently_viewed"></div>
+                <?php endif;?>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        require(['arv'], function(){
+            window.isCustomer = '<?=$this->helper('WeltPixel\RecentlyViewedBar\Helper\Data')->isCustomerLoggedIn()?>';
+            window.isSlEnabled = '<?=$this->helper('WeltPixel\RecentlyViewedBar\Helper\Data')->isSlEnabled()?>';
+            arv.init();
+            arv.clearArv();
+            arv.secondBtn();
+             arv.closeSlide();
+            arv.arvSlideUp();
+           
+        });
+    </script>
+
+    <?php if(!$block->isUICompatible()):?>
+        <script type="text/x-magento-init">
+            {
+                "#recently_viewed": {
+                    "arvAjax": {
+                        "ajaxUrl": "<?php echo $block->getUrl('arv/recentlyviewed/index') ?>",
+                        "requestType": "recently_viewed"
+                    }
+                }
+
+            }
+        </script>
+    <?php endif;?>
+<?php endif;?>
